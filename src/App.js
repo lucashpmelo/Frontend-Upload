@@ -10,14 +10,23 @@ import { Container, Content } from './styles';
 import Upload from './components/Upload';
 import FileList from './components/FileList';
 
-import ImageCropper from './components/Cropper';
+import ImageCropper from './components/Cropper/indexTst';
+
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.min.css";
 
 class App extends Component {
   state = {
     uploadedFiles: [],
     flag: false,
-    urlTeste: ''
+    urlTeste: '',
+    imageDestination: ""
   };
+
+  constructor() {
+    super();
+    this.imageElement = React.createRef();
+  }
 
   async componentDidMount() {
     const response = await api.get("posts");
@@ -107,6 +116,16 @@ class App extends Component {
     this.setState({
       flag: true,
       urlTeste: url
+    });    
+
+    const cropper = new Cropper(this.imageElement.current, {
+      zoomable: false,
+      scalable: false,
+      aspectRatio: 1,
+      crop: () => {
+        const canvas = cropper.getCroppedCanvas();
+        this.setState({ imageDestination: canvas.toDataURL("image/png") });
+      }
     });
   }
 
@@ -117,8 +136,8 @@ class App extends Component {
       <Container>
         <Content>
           {!this.state.flag && (<Upload onUpload={this.handleUpload} />)}
-          {!!uploadedFiles.length && (<FileList files={uploadedFiles} onChange={this.handleChange} onDelete={this.handleDelete} />)}
-          {this.state.flag && (<ImageCropper src={this.state.urlTeste} />)}
+          {!this.state.flag && !!uploadedFiles.length && (<FileList files={uploadedFiles} onChange={this.handleChange} onDelete={this.handleDelete} />)}
+          {this.state.flag && (<ImageCropper url='http://localhost:3000/files/71b414dca77ca1dc6a153fc20ea44649-pp.jpg' imageElement={this.imageElement} imageDestination={this.state.imageDestination} />)}
         </Content>
         <GlobalStile />
       </Container>

@@ -1,7 +1,7 @@
 import React from "react";
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.min.css";
-import "./imagecropper.css";
+import "./styles.css";
 
 class ImageCropper extends React.Component {
 

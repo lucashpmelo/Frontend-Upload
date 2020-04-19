@@ -10,9 +10,13 @@ import { Container, Content } from './styles';
 import Upload from './components/Upload';
 import FileList from './components/FileList';
 
+import ImageCropper from './components/Cropper';
+
 class App extends Component {
   state = {
     uploadedFiles: [],
+    flag: false,
+    urlTeste: ''
   };
 
   async componentDidMount() {
@@ -99,15 +103,22 @@ class App extends Component {
     this.state.uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview));
   }
 
+  handleChange = url => {
+    this.setState({
+      flag: true,
+      urlTeste: url
+    });
+  }
+
   render() {
     const { uploadedFiles } = this.state;
 
     return (
       <Container>
         <Content>
-          <Upload onUpload={this.handleUpload} />
-          {!!uploadedFiles.length && (<FileList files={uploadedFiles} onDelete={this.handleDelete} />
-          )}
+          {!this.state.flag && (<Upload onUpload={this.handleUpload} />)}
+          {!!uploadedFiles.length && (<FileList files={uploadedFiles} onChange={this.handleChange} onDelete={this.handleDelete} />)}
+          {this.state.flag && (<ImageCropper src={this.state.urlTeste} />)}
         </Content>
         <GlobalStile />
       </Container>

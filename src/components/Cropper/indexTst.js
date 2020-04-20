@@ -3,13 +3,10 @@ import React from "react";
 import "cropperjs/dist/cropper.min.css";
 import "./styles.css";
 
+import ImageCropper from './index';
+
 const _Cropper = ({ url, imageElement, imageDestination }) => (
-    <div>
-        <div className="img-container">
-            <img ref={imageElement} src={url} alt="Source" crossorigin />
-        </div>
-        <img className="img-preview" src={imageDestination} alt="Destination" />
-    </div>
+    <div></div>
 );
 
 export default _Cropper;

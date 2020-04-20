@@ -10,9 +10,9 @@ import { Container, Content } from './styles';
 import Upload from './components/Upload';
 import FileList from './components/FileList';
 
-import ImageCropper from './components/Cropper/indexTst';
+import ImageCropper from './components/Cropper/index';
 
-import Cropper from "cropperjs";
+//import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.min.css";
 
 class App extends Component {
@@ -116,17 +116,16 @@ class App extends Component {
     this.setState({
       flag: true,
       urlTeste: url
-    });    
-
-    const cropper = new Cropper(this.imageElement.current, {
-      zoomable: false,
-      scalable: false,
-      aspectRatio: 1,
-      crop: () => {
-        const canvas = cropper.getCroppedCanvas();
-        this.setState({ imageDestination: canvas.toDataURL("image/png") });
-      }
     });
+    
+  }
+
+  handleChange2 = url => {
+    this.setState({
+      flag: false,
+      urlTeste: ''
+    });
+    
   }
 
   render() {
@@ -137,12 +136,13 @@ class App extends Component {
         <Content>
           {!this.state.flag && (<Upload onUpload={this.handleUpload} />)}
           {!this.state.flag && !!uploadedFiles.length && (<FileList files={uploadedFiles} onChange={this.handleChange} onDelete={this.handleDelete} />)}
-          {this.state.flag && (<ImageCropper url='http://localhost:3000/files/71b414dca77ca1dc6a153fc20ea44649-pp.jpg' imageElement={this.imageElement} imageDestination={this.state.imageDestination} />)}
+          {this.state.flag && (<ImageCropper src={this.state.urlTeste} />)}
+          
         </Content>
         <GlobalStile />
       </Container>
     );
   }
 }
-
+//{this.state.flag && (<ImageCropper url={this.state.urlTeste} imageElement={this.imageElement} imageDestination={this.state.imageDestination} />)}
 export default App;

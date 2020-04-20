@@ -10,3 +10,10 @@
     float: left;
     margin-left: 10px;
 }
+
+img {
+    display: block;
+  
+    /* This rule is very important, please don't ignore this */
+    max-width: 100%;
+}
